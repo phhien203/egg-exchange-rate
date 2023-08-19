@@ -1,11 +1,11 @@
 import React from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { updateCurrencyCode } from '../store/actions/RateActions';
 import {
   getCurrencyCode,
   getSupportedCurrencies,
 } from '../store/reducers/RateReducer';
-import { updateCurrencyCode } from '../store/actions/RateActions';
 
 export function CurrencyCodePicker() {
   const dispatch = useDispatch();
@@ -27,5 +27,3 @@ export function CurrencyCodePicker() {
     </select>
   );
 }
-
-export const CurrencyCodePickerContainer = connect()(CurrencyCodePicker);

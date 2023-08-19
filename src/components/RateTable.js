@@ -1,6 +1,6 @@
 import Bounce from 'bounce.js';
 import React from 'react';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { getAmount, getRates } from '../store/reducers/RateReducer';
 import { getName } from '../store/reducers/UserReducer';
@@ -58,5 +58,3 @@ export function RateTable() {
     </table>
   );
 }
-
-export const RateTableContainer = connect()(RateTable);

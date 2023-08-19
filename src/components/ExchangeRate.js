@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { getExchangeRates } from '../api';
 import { ratesUpdated } from '../store/actions/RateActions';
@@ -7,9 +7,9 @@ import {
   getCurrencyCode,
   getSupportedCurrencies,
 } from '../store/reducers/RateReducer';
-import { AmountFieldContainer } from './AmountField';
-import { CurrencyCodePickerContainer } from './CurrencyCodePicker';
-import { RateTableContainer } from './RateTable';
+import { AmountField } from './AmountField';
+import { CurrencyCodePicker } from './CurrencyCodePicker';
+import { RateTable } from './RateTable';
 
 export function ExchangeRate() {
   const dispatch = useDispatch();
@@ -26,17 +26,15 @@ export function ExchangeRate() {
     <>
       <section>
         <h1 className="ExchangeRate-header">
-          Exchange Rates <CurrencyCodePickerContainer />
+          Exchange Rates <CurrencyCodePicker />
         </h1>
       </section>
       <section>
-        <AmountFieldContainer />
+        <AmountField />
       </section>
       <section>
-        <RateTableContainer />
+        <RateTable />
       </section>
     </>
   );
 }
-
-export const ExchangeRateContainer = connect()(ExchangeRate);

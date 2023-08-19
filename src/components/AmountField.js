@@ -1,6 +1,6 @@
 import { debounce } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { amountChanged } from '../store/actions/RateActions';
 import { getAmount } from '../store/reducers/RateReducer';
@@ -33,5 +33,3 @@ export function AmountField() {
     </form>
   );
 }
-
-export const AmountFieldContainer = connect()(AmountField);
