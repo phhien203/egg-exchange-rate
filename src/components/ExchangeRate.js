@@ -11,7 +11,7 @@ import { AmountField } from './AmountField';
 import { CurrencyCodePicker } from './CurrencyCodePicker';
 import { RateTable } from './RateTable';
 
-export function ExchangeRate() {
+function useCurrencyCodes() {
   const dispatch = useDispatch();
   const currencyCode = useSelector(getCurrencyCode);
   const supportedCurrencies = useSelector(getSupportedCurrencies);
@@ -21,6 +21,10 @@ export function ExchangeRate() {
       dispatch(ratesUpdated(rates));
     });
   }, [currencyCode, supportedCurrencies, dispatch]);
+}
+
+export function ExchangeRate() {
+  useCurrencyCodes();
 
   return (
     <>
