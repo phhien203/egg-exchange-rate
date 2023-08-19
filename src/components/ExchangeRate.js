@@ -1,25 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
+
+import { getExchangeRates } from '../api';
 import { ratesUpdated } from '../store/actions/RateActions';
 import {
   getCurrencyCode,
   getSupportedCurrencies,
 } from '../store/reducers/RateReducer';
-import { RateTableContainer } from './RateTable';
-import { CurrencyCodePickerContainer } from './CurrencyCodePicker';
-import { getExchangeRates } from '../api';
 import { AmountFieldContainer } from './AmountField';
+import { CurrencyCodePickerContainer } from './CurrencyCodePicker';
+import { RateTableContainer } from './RateTable';
 
-export function ExchangeRate({ updateRates }) {
+export function ExchangeRate() {
+  const dispatch = useDispatch();
   const currencyCode = useSelector(getCurrencyCode);
   const supportedCurrencies = useSelector(getSupportedCurrencies);
 
   React.useEffect(() => {
     getExchangeRates(currencyCode, supportedCurrencies).then((rates) => {
-      updateRates(rates);
+      dispatch(ratesUpdated(rates));
     });
-  }, [currencyCode, supportedCurrencies, updateRates]);
+  }, [currencyCode, supportedCurrencies, dispatch]);
 
   return (
     <>
@@ -38,18 +39,4 @@ export function ExchangeRate({ updateRates }) {
   );
 }
 
-// props types
-ExchangeRate.propTypes = {
-  supportedCurrencies: PropTypes.arrayOf(PropTypes.string),
-};
-
-// redux stuff
-function mapDispatchToProps(dispatch) {
-  return {
-    updateRates: (rates) => dispatch(ratesUpdated(rates)),
-  };
-}
-export const ExchangeRateContainer = connect(
-  null,
-  mapDispatchToProps
-)(ExchangeRate);
+export const ExchangeRateContainer = connect(null, null)(ExchangeRate);
