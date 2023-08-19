@@ -1,17 +1,17 @@
 import { debounce } from 'lodash';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { amountChanged } from '../store/actions/RateActions';
 import { getAmount } from '../store/reducers/RateReducer';
 
-export function AmountField({ amount, changeAmount }) {
+export function AmountField() {
+  const dispatch = useDispatch();
+  const amount = useSelector(getAmount);
   const [displayAmount, setDisplayAmount] = React.useState(amount);
-  const onAmountChanged = React.useMemo(
-    () => debounce(changeAmount, 500),
-    [changeAmount]
-  );
+
+  const changeAmount = (newAmount) => dispatch(amountChanged(newAmount));
+  const onAmountChanged = debounce(changeAmount, 500);
 
   function onChange(e) {
     let newAmount = e.target.value;
@@ -26,26 +26,4 @@ export function AmountField({ amount, changeAmount }) {
   );
 }
 
-// prop types
-AmountField.propTypes = {
-  amount: PropTypes.string,
-  changeAmount: PropTypes.func,
-};
-
-// redux stuff
-function mapStateToProps(state) {
-  return {
-    amount: getAmount(state),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    changeAmount: (newAmount) => dispatch(amountChanged(newAmount)),
-  };
-}
-
-export const AmountFieldContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AmountField);
+export const AmountFieldContainer = connect()(AmountField);

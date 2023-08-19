@@ -39,4 +39,4 @@ export function ExchangeRate() {
   );
 }
 
-export const ExchangeRateContainer = connect(null, null)(ExchangeRate);
+export const ExchangeRateContainer = connect()(ExchangeRate);
