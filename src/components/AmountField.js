@@ -1,29 +1,29 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { getAmount } from "../store/reducers/RateReducer";
-import { amountChanged } from "../store/actions/RateActions";
-import { debounce } from "lodash";
+import { debounce } from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 
-export class AmountField extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { amount: props.amount };
-    this.onChange = this.onChange.bind(this);
-    this.changeAmount = debounce(this.props.changeAmount, 500);
-  }
-  onChange(e) {
+import { amountChanged } from '../store/actions/RateActions';
+import { getAmount } from '../store/reducers/RateReducer';
+
+export function AmountField({ amount, changeAmount }) {
+  const [displayAmount, setDisplayAmount] = React.useState(amount);
+  const onAmountChanged = React.useMemo(
+    () => debounce(changeAmount, 500),
+    [changeAmount]
+  );
+
+  function onChange(e) {
     let newAmount = e.target.value;
-    this.setState({ amount: newAmount });
-    this.changeAmount(newAmount);
+    setDisplayAmount(newAmount);
+    onAmountChanged(newAmount);
   }
-  render() {
-    return (
-      <form className="ExchangeRate-form">
-        <input type="text" value={this.state.amount} onChange={this.onChange} />
-      </form>
-    );
-  }
+
+  return (
+    <form className="ExchangeRate-form">
+      <input type="text" value={displayAmount} onChange={onChange} />
+    </form>
+  );
 }
 
 // prop types
