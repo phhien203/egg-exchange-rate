@@ -1,5 +1,5 @@
 import { debounce } from 'lodash';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { amountChanged } from '../store/actions/RateActions';
@@ -10,8 +10,16 @@ export function AmountField() {
   const amount = useSelector(getAmount);
   const [displayAmount, setDisplayAmount] = React.useState(amount);
 
-  const changeAmount = (newAmount) => dispatch(amountChanged(newAmount));
-  const onAmountChanged = debounce(changeAmount, 500);
+  const changeAmount = useCallback(
+    (newAmount) => dispatch(amountChanged(newAmount)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  const onAmountChanged = useMemo(
+    () => debounce(changeAmount, 500),
+    [changeAmount]
+  );
 
   function onChange(e) {
     let newAmount = e.target.value;
